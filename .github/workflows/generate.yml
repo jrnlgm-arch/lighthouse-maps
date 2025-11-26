@@ -1,0 +1,35 @@
+name: Generate Coastline Map
+
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        description: 'Location to map (e.g., Maine, USA)'
+        required: true
+        default: 'Maine, USA'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run script
+      run: python generate_map.py "${{ inputs.location }}"
+
+    - name: Upload Image Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coastline-map
+        path: coastline_output.png
