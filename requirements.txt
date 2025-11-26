@@ -1,0 +1,4 @@
+osmnx
+matplotlib
+geopandas
+scipy
